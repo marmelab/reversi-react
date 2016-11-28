@@ -1,6 +1,6 @@
 import React from 'react';
 import Helmet from 'react-helmet';
-import { Link, Router, Route } from 'react-router';
+import { Link } from 'react-router';
 
 const Welcome = () => (
     <div>
@@ -8,7 +8,7 @@ const Welcome = () => (
         <div>
             <h1>Welcome to reversi</h1>
             <div>
-                <Link to={'/game'}>Start a new game</Link>
+                <Link to="/game">Start a new game</Link>
             </div>
         </div>
     </div>

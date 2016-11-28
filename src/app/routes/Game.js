@@ -7,7 +7,7 @@ const Game = () => (
         <Helmet title={'Game'} />
         <h1>Game</h1>
         <div>
-            <Link to={'/'}>Return to home</Link>
+            <Link to="/">Return to home</Link>
         </div>
     </div>
 );

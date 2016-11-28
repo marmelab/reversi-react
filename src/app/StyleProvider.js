@@ -1,7 +1,6 @@
 import React, { Component, Children, PropTypes } from 'react';
 
 class StyleProvider extends Component {
-
     getChildContext() {
         return {
             style: this.props.style,
