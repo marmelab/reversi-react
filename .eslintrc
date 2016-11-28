@@ -11,6 +11,7 @@
         "react/jsx-indent": [2, 4],
         "react/jsx-indent-props": [2, 4],
         "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.spec.js"]}],
-        "no-use-before-define": ["error", { "functions": false, "classes": true }]
+        "no-use-before-define": ["error", { "functions": false, "classes": true }],
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
     }
 }
