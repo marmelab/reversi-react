@@ -4,7 +4,7 @@ install:
 	npm install
 
 run:
-	node src/server.js
+	./node_modules/.bin/babel-watch src/server.js
 
 test:
 	./node_modules/.bin/mocha \
