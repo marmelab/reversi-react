@@ -22,14 +22,11 @@ const initGame = (againstComputer) => {
 
 export default (game = initGame(false), action = {}) => {
     switch (action.type) {
-    case PLACE_CELL_CHANGE: {
+    case PLACE_CELL_CHANGE:
         return tryPlayerSwitch(playCellChange(action.cellChange, game));
-    }
-    case START_NEW_GAME: {
+    case START_NEW_GAME:
         return initGame(action.againstComputer);
-    }
-    default: {
+    default:
         return game;
-    }
     }
 };
