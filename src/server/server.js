@@ -6,9 +6,9 @@ import { Provider } from 'react-redux';
 import path from 'path';
 import Helmet from 'react-helmet';
 import { jss } from 'react-jss';
-import routes from './routes';
-import configureStore from './app/configureStore';
-import StyleProvider from './app/StyleProvider';
+import routes from '../shared/routes';
+import configureStore from '../shared/app/configureStore';
+import StyleProvider from '../shared/app/StyleProvider';
 
 const app = express();
 

@@ -1,12 +1,12 @@
-const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
-    devtool: 'inline-sourcemap',
+    watch: true,
+    entry: './src/client/client.js',
     output: {
-        path: path.join(__dirname, 'src', 'static', 'js'),
-        publicPath: '/js/',
         filename: 'bundle.js',
+        path: path.join(__dirname, '/public/'),
+        publicPath: '/public/',
     },
     module: {
         loaders: [{
@@ -17,12 +17,4 @@ module.exports = {
             },
         }],
     },
-    plugins: [
-        new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-        }),
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
-    ],
 };
