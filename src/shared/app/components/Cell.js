@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { StyleSheet } from 'jss';
 import { Link } from 'react-router';
-import { cellPropType } from '../propTypes';
 import { getColor } from '../../reversi/cell/Cell';
 
 const styles = {
@@ -16,13 +15,13 @@ const styles = {
     },
 };
 
-const Cell = ({ sheet, cell }) => (
-    <Link to="/" className={sheet.classes.cell} style={{ backgroundColor: getColor(cell.type) }}>
+const Cell = ({ sheet, type }) => (
+    <Link to="/" className={sheet.classes.cell} style={{ backgroundColor: getColor(type) }}>
     </Link>
 );
 
 Cell.propTypes = {
-    cell: cellPropType.isRequired,
+    type: PropTypes.number.isRequired,
     sheet: PropTypes.instanceOf(StyleSheet),
 };
 

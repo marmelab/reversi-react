@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { StyleSheet } from 'jss';
 import Cell from './Cell';
-import { create as createCell } from '../../reversi/cell/Cell';
 import { boardPropType } from '../propTypes';
 
 const styles = {
@@ -28,7 +27,7 @@ const Board = ({ sheet, board }) => (
             <div className={sheet.classes.boardrow} key={`row-${y}`}>
                 {row.map((cellType, x) =>
                     <div key={`cell-${x}-${y}`} className={sheet.classes.boardcell}>
-                        <Cell cell={createCell(x, y, cellType)} />
+                        <Cell type={cellType} />
                     </div>,
                 )}
             </div>,
