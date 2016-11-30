@@ -9,9 +9,11 @@ import sagas from '../shared/app/sagas';
 const store = configureStore(window.__INITIAL_STATE__);
 store.runSaga(sagas);
 
+const rootElement = document.getElementById('react-root');
+
 render(
     <Provider store={store}>
         <Router history={browserHistory} routes={routes} />
     </Provider>,
-    document.getElementById('react-root')
+    rootElement,
 );
