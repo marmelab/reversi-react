@@ -1,20 +1,22 @@
 const path = require('path');
 
+const buildFolder = 'build';
+const buildPath = path.resolve(__dirname, `./public/${buildFolder}`);
+
 module.exports = {
-    watch: true,
     entry: './src/client/client.js',
     output: {
         filename: 'bundle.js',
-        path: path.join(__dirname, '/public/'),
-        publicPath: '/public/',
+        path: buildPath,
+        publicPath: `/${buildFolder}/`,
     },
     module: {
         loaders: [{
-            test: path.join(__dirname, 'src'),
-            loader: ['babel-loader'],
-            query: {
-                presets: ['react', 'es2015'],
-            },
+            test: /\.jsx?$/,
+            include: [
+                path.resolve(__dirname, './src'),
+            ],
+            loader: 'babel',
         }],
     },
 };
