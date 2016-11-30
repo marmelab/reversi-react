@@ -1,4 +1,4 @@
-.PHONY: install run test lint
+.PHONY: install run watch build test lint
 
 install:
 	npm install
@@ -6,6 +6,12 @@ install:
 run:
 	./node_modules/.bin/nodemon --exec \
 		./node_modules/.bin/babel-node -- src/server/server.js
+
+build:
+	./node_modules/.bin/webpack -d
+
+watch:
+	./node_modules/.bin/webpack --watch -d
 
 test:
 	./node_modules/.bin/mocha \

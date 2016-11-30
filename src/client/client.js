@@ -1,12 +1,16 @@
 import React from 'react';
-import ReactDOM from 'react-dom/server';
+import { render } from 'react-dom';
 import { Router, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import routes from '../shared/routes';
-import configureStore from '../shared/app/configureStore';
+import configureStore from '../shared/app/store';
+import sagas from '../shared/app/sagas';
 
-ReactDOM.render(
-    <Provider store={configureStore()}>
+const store = configureStore(window.__INITIAL_STATE__);
+store.runSaga(sagas);
+
+render(
+    <Provider store={store}>
         <Router history={browserHistory} routes={routes} />
     </Provider>,
     document.getElementById('react-root')
