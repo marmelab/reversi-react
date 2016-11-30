@@ -8,8 +8,8 @@
     "babel-core": "6.18.2",
     "babel-eslint": "7.1.1",
     "babel-loader": "6.2.8",
-    "babel-plugin-transform-class-properties": "^6.19.0",
-    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-plugin-transform-class-properties": "6.19.0",
+    "babel-plugin-transform-runtime": "6.15.0",
     "babel-polyfill": "6.16.0",
     "babel-preset-es2015": "6.18.0",
     "babel-preset-react": "6.16.0",
@@ -24,8 +24,8 @@
     "nodemon": "1.11.0"
   },
   "dependencies": {
-    "axios": "^0.15.3",
-    "body-parser": "^1.15.2",
+    "axios": "0.15.3",
+    "body-parser": "1.15.2",
     "express": "4.14.0",
     "jss": "5.5.6",
     "jss-preset-default": "0.9.0",
@@ -37,7 +37,7 @@
     "react-router": "3.0.0",
     "redux": "3.6.0",
     "redux-logger": "2.7.4",
-    "redux-saga": "^0.13.0",
+    "redux-saga": "0.13.0",
     "webpack": "1.13.3"
   }
 }
