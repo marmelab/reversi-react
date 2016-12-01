@@ -4,10 +4,11 @@ import Helmet from 'react-helmet';
 import { jss } from 'react-jss';
 import { match, RouterContext } from 'react-router';
 import { Provider } from 'react-redux';
+import config from 'config';
 import configureStore from '../../shared/app/store';
 import StyleProvider from '../../shared/utils/StyleProvider';
 import routes from '../../shared/routes';
-import sagas from '../../shared/app/sagas';
+import sagaFactory from '../../shared/app/sagas';
 
 const AppMiddleware = (req, res) => {
     const head = Helmet.rewind();
@@ -27,7 +28,7 @@ const AppMiddleware = (req, res) => {
             </StyleProvider>
         );
 
-        store.runSaga(sagas).done.then(() => {
+        store.runSaga(sagaFactory(config)).done.then(() => {
             return res.render('index', {
                 app: renderToString(rootComponent),
                 css: jss.sheets.toString(),

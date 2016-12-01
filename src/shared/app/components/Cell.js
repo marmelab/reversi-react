@@ -37,7 +37,7 @@ const Cell = ({ sheet, cell, onClick, gameHash, isProposal }) => {
 
     if (isProposal) {
         return (
-            <form onSubmit={onSubmit} action={`/api/games/place/${gameHash}`} method="POST">
+            <form onSubmit={onSubmit} action={`/games/place/${gameHash}`} method="POST">
                 <input type="hidden" value={cell.x} name="cell[x]" />
                 <input type="hidden" value={cell.y} name="cell[y]" />
                 <input type="hidden" value={cell.type} name="cell[type]" />
