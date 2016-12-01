@@ -3,6 +3,7 @@ import injectSheet from 'react-jss';
 import { StyleSheet } from 'jss';
 import { getColor } from '../../reversi/cell/Cell';
 import { cellPropType } from '../propTypes';
+import config from 'config';
 
 const styles = {
     cell: {
@@ -36,8 +37,9 @@ const Cell = ({ sheet, cell, onClick, gameHash, isProposal }) => {
     };
 
     if (isProposal) {
+        const apiBaseUrl = config.shared.apiBaseUrl;
         return (
-            <form onSubmit={onSubmit} action={`/games/place/${gameHash}`} method="POST">
+            <form onSubmit={onSubmit} action={`${apiBaseUrl}/games/place/${gameHash}`} method="POST">
                 <input type="hidden" value={cell.x} name="cell[x]" />
                 <input type="hidden" value={cell.y} name="cell[y]" />
                 <input type="hidden" value={cell.type} name="cell[type]" />
