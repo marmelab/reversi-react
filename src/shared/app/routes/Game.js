@@ -4,12 +4,30 @@ import { Link } from 'react-router';
 import injectSheet from 'react-jss';
 import { StyleSheet } from 'jss';
 import Board from '../components/Board';
+import PlayerBadge from '../components/PlayerBadge';
 import { gamePropType } from '../propTypes';
-import { getCurrentAvailableCellChanges, getWinner } from '../../reversi/game/Game';
+import { getCellTypeDistribution } from '../../reversi/board/Board';
+import { getCurrentAvailableCellChanges, getWinner, getCurrentPlayer } from '../../reversi/game/Game';
 
 const styles = {
     view: {
         position: 'relative',
+    },
+    header: {
+        textAlign: 'center',
+    },
+    content: {
+        width: '600px',
+        margin: '0 auto',
+    },
+    players: {
+        display: 'table',
+        width: '100%',
+    },
+    playerBadgeContainer: {
+        display: 'table-cell',
+        width: '50%',
+        textAlign: 'center',
     },
     overlay: {
         position: 'absolute',
@@ -32,33 +50,46 @@ class Game extends Component {
     }
 
     render() {
-        const game = this.props.game;
+        const { game, sheet, placeCellChange } = this.props;
         const cellProposals = game ? getCurrentAvailableCellChanges(game) : [];
         const winner = game ? getWinner(game) : null;
+        const cellTypeDistribution = game ? getCellTypeDistribution(game.board) : null;
 
         return (
-            <div className={this.props.sheet.classes.view}>
-                <Helmet title={'Game'} />
-                <h1>Game</h1>
-                <div>
+            <div className={sheet.classes.view}>
+                <div className={sheet.classes.header}>
+                    <Helmet title={'Game'} />
+                    <h1>Game</h1>
                     <Link to="/">Return to home</Link>
                 </div>
-                <div>
-                    { game ?
+                { game ?
+                    <div className={sheet.classes.content}>
                         <Board
+                            width={'600'}
                             gameHash={game.hash}
                             cellProposals={cellProposals}
-                            onCellClick={this.props.placeCellChange}
+                            onCellClick={placeCellChange}
                             board={game.board}
-                        /> : ''
-                    }
-                </div>
-                { game && game.isFinished ?
-                    <div className={this.props.sheet.classes.overlay}>
-                        { winner ? `${winner.name} win!` : 'It\'s a draw!' }<br />
-                        <i style={{ fontSize: '100px', marginTop: 50 }} className="fa fa-hand-peace-o" />
-                    </div> : ''
-                }
+                        />
+                        <div className={sheet.classes.players}>
+                            {game.players.map((player, pidx) => (
+                                <div key={`player_${pidx}`} className={sheet.classes.playerBadgeContainer}>
+                                    <PlayerBadge
+                                        player={player}
+                                        isCurrent={getCurrentPlayer(game) === player}
+                                        count={cellTypeDistribution ? cellTypeDistribution[player.cellType] : 0}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                        {game.isFinished ?
+                            <div className={sheet.classes.overlay}>
+                                { winner ? `${winner.name} win!` : 'It\'s a draw!' }<br />
+                                <i style={{ fontSize: '100px', marginTop: 50 }} className="fa fa-hand-peace-o" />
+                            </div> : ''
+                        }
+                    </div>
+                : '' }
             </div>
         );
     }
