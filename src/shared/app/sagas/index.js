@@ -6,6 +6,7 @@ export default (config) => {
         watchRequestGame,
         watchRequestNewGame,
         watchPlaceCellChange,
+        watchAttemptComputerTurn,
     } = gameSagaFactory(config);
 
     return function* root() {
@@ -13,6 +14,7 @@ export default (config) => {
             fork(watchRequestGame),
             fork(watchRequestNewGame),
             fork(watchPlaceCellChange),
+            fork(watchAttemptComputerTurn),
         ];
     };
 };

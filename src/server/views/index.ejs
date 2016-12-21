@@ -12,11 +12,18 @@
             }
             <%- css %>
         </style>
+        <% if(isComputerTurn && gameHash) { %>
+        <meta id="computerturn" http-equiv="refresh" content="1; url=/api/games/computer-play/<%= gameHash %>?redirect=1" />
+        <% } %>
+        <script>
+            var el = document.getElementById('computerturn');
+            el && el.remove();
+        </script>
     </head>
     <body>
         <div id="react-root"><%- app %></div>
         <script>
-          window.__INITIAL_STATE__ = <%- stateString %>
+          window.__INITIAL_STATE__ = <%- JSON.stringify(state) %>
         </script>
         <script src="/public/build/bundle.js"></script>
     </body>

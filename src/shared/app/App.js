@@ -7,6 +7,7 @@ const styles = {
         backgroundColor: '#079153',
         borderRadius: '3px',
         padding: '10px',
+        position: 'relative',
     },
 };
 
