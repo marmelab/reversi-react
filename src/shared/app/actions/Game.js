@@ -2,6 +2,7 @@ export const REQUEST_GAME = 'REQUEST_GAME';
 export const RECEIVE_GAME = 'RECEIVE_GAME';
 export const REQUEST_NEW_GAME = 'REQUEST_NEW_GAME';
 export const PLACE_CELL_CHANGE = 'PLACE_CELL_CHANGE';
+export const ATTEMPT_COMPUTER_TURN = 'ATTEMPT_COMPUTER_TURN';
 
 export default (apiBaseUrl) => {
     const requestGame = (hash) => {
@@ -19,10 +20,11 @@ export default (apiBaseUrl) => {
         };
     };
 
-    const requestNewGame = () => {
+    const requestNewGame = (againstComputer) => {
         return {
             type: REQUEST_NEW_GAME,
             uri: `${apiBaseUrl}/games/new`,
+            againstComputer,
         };
     };
 
@@ -35,10 +37,19 @@ export default (apiBaseUrl) => {
         };
     };
 
+    const attemptComputerTurn = (gameHash) => {
+        return {
+            type: ATTEMPT_COMPUTER_TURN,
+            uri: `${apiBaseUrl}/games/computer-play/${gameHash}`,
+            gameHash,
+        };
+    };
+
     return {
         requestGame,
         receiveGame,
         requestNewGame,
         placeCellChange,
+        attemptComputerTurn,
     };
 };

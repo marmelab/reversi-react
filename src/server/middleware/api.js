@@ -1,9 +1,17 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import axios from 'axios';
 import { all, add, get, exist, set } from '../api/games';
-import { create as createGame, playCellChange, tryPlayerSwitch } from '../../shared/reversi/game/Game';
 import { create as createCell, TYPE_BLACK, TYPE_WHITE } from '../../shared/reversi/cell/Cell';
 import { create as createPlayer } from '../../shared/reversi/player/Player';
+
+import {
+    create as createGame,
+    playCellChange,
+    tryPlayerSwitch,
+    getCurrentPlayer,
+    playerCanPlay,
+ } from '../../shared/reversi/game/Game';
 
 const ApiMiddleware = express();
 
@@ -15,10 +23,52 @@ ApiMiddleware.get('/games', (req, res) => {
 });
 
 ApiMiddleware.post('/games/new', (req, res) => {
+    const { againstComputer } = req.body;
     res.json(add(createGame([
         createPlayer('Player 1', TYPE_BLACK),
-        createPlayer('Player 2', TYPE_WHITE),
+        createPlayer(againstComputer ? 'Computer' : 'Player 2', TYPE_WHITE, !againstComputer),
     ]))).send();
+});
+
+ApiMiddleware.get('/games/computer-play/:hash', (req, res) => {
+    const { hash } = req.params;
+    const { redirect } = req.query;
+
+    if (!exist(hash)) {
+        res.status(404).send();
+        return;
+    }
+
+    let game = get(hash);
+    const player = getCurrentPlayer(game);
+
+    if (player.isHuman || !playerCanPlay(player, game)) {
+        return;
+    }
+
+    try {
+        axios.post(
+            `http://localhost:8181/?type=${player.cellType}`,
+            JSON.stringify(game.board.cells),
+        ).then(({ data }) => {
+
+            game = tryPlayerSwitch(playCellChange(createCell(data.X, data.Y, data.CellType), game));
+
+            game.hash = hash;
+            set(hash, game);
+
+            if (redirect) {
+                res.redirect(`/game/${req.params.hash}`);
+                return;
+            }
+
+            return res.json({}).send();
+
+        });
+    } catch (e) {
+        console.log(e);
+    }
+
 });
 
 ApiMiddleware.get('/games/:hash', (req, res) => {
@@ -30,26 +80,39 @@ ApiMiddleware.get('/games/:hash', (req, res) => {
 });
 
 ApiMiddleware.post('/games/place/:hash', (req, res) => {
-    if (!exist(req.params.hash)) {
+    const { hash } = req.params;
+    const { redirect } = req.query;
+    const { cell } = req.body;
+
+    if (!exist(hash)) {
         res.status(404).send();
         return;
     }
-    const reqCell = req.body.cell;
-    let game = get(req.params.hash);
-    let error = '';
-    game = playCellChange(createCell(
-        parseInt(reqCell.x, 10),
-        parseInt(reqCell.y, 10),
-        parseInt(reqCell.type, 10),
-    ), game);
+
+    const status = { error: false, message: '' };
+
+    let game = playCellChange(createCell(
+        parseInt(cell.x, 10),
+        parseInt(cell.y, 10),
+        parseInt(cell.type, 10),
+    ), get(hash));
+
     try {
         game = tryPlayerSwitch(game);
     } catch (e) {
-        error = e.message;
+        status.error = true;
+        status.message = e.message;
     }
-    game.hash = req.params.hash;
-    set(req.params.hash, game);
-    res.redirect(`/game/${req.params.hash}?error=${error}`);
+
+    game.hash = hash;
+    set(hash, game);
+
+    if (redirect) {
+        res.redirect(`/game/${req.params.hash}?error=${status.message}`);
+        return;
+    }
+
+    res.json(status).send();
 });
 
 ApiMiddleware.put('/games/:hash', (req, res) => {

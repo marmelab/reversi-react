@@ -10,11 +10,10 @@ import { getCellTypeDistribution } from '../../reversi/board/Board';
 import { getCurrentAvailableCellChanges, getWinner, getCurrentPlayer } from '../../reversi/game/Game';
 
 const styles = {
-    view: {
-        position: 'relative',
-    },
     header: {
         textAlign: 'center',
+        color: 'white',
+        position: 'relative',
     },
     content: {
         width: '600px',
@@ -42,6 +41,11 @@ const styles = {
         fontSize: '40px',
         fontWeight: 'bold',
     },
+    close: {
+        position: 'absolute',
+        right: 40,
+        top: 5,
+    },
 };
 
 class Game extends Component {
@@ -56,20 +60,21 @@ class Game extends Component {
         const cellTypeDistribution = game ? getCellTypeDistribution(game.board) : null;
 
         return (
-            <div className={sheet.classes.view}>
+            <div>
                 <div className={sheet.classes.header}>
                     <Helmet title={'Game'} />
                     <h1>Game</h1>
-                    <Link to="/">Return to home</Link>
+                    <Link className={sheet.classes.close} to="/">
+                        <i style={{ fontSize: '30px', color: 'white' }} className="fa fa-window-close" />
+                    </Link>
                 </div>
                 { game ?
                     <div className={sheet.classes.content}>
                         <Board
-                            width={'600'}
-                            gameHash={game.hash}
+                            width={600}
+                            game={game}
                             cellProposals={cellProposals}
                             onCellClick={placeCellChange}
-                            board={game.board}
                         />
                         <div className={sheet.classes.players}>
                             {game.players.map((player, pidx) => (

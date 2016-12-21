@@ -2,8 +2,9 @@ import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
 import { StyleSheet } from 'jss';
 import Cell from './Cell';
-import { boardPropType } from '../propTypes';
+import { gamePropType } from '../propTypes';
 import { create as createCell } from '../../reversi/cell/Cell';
+import { getCurrentPlayer } from '../../reversi/game/Game';
 
 const styles = {
     board: {
@@ -19,14 +20,22 @@ const styles = {
     },
 };
 
-const Board = ({ sheet, board, width, onCellClick, gameHash, cellProposals }) => {
+const Board = ({ sheet, width, onCellClick, cellProposals, game }) => {
+    const { board, hash: gameHash } = game;
 
     const resolveCell = (x, y, cellType) => {
         const cell = createCell(x, y, cellType);
         const proposalIndex = cellProposals.findIndex(c => c.x === cell.x && c.y === cell.y);
         if (proposalIndex !== -1) {
-            const proposalCell = cellProposals[proposalIndex];
-            return (<Cell gameHash={gameHash} isProposal onClick={onCellClick} cell={proposalCell} />);
+            return (
+                <Cell
+                    gameHash={gameHash}
+                    isProposal
+                    isInteractive={getCurrentPlayer(game).isHuman}
+                    onClick={onCellClick}
+                    cell={cellProposals[proposalIndex]}
+                />
+            );
         }
         return (<Cell isProposal={false} cell={cell} />);
     };
@@ -52,10 +61,9 @@ const Board = ({ sheet, board, width, onCellClick, gameHash, cellProposals }) =>
 
 Board.propTypes = {
     sheet: PropTypes.instanceOf(StyleSheet),
-    board: boardPropType.isRequired,
+    game: gamePropType.isRequired,
     width: PropTypes.number.isRequired,
     onCellClick: PropTypes.func.isRequired,
-    gameHash: PropTypes.string.isRequired,
     cellProposals: PropTypes.array,
 };
 

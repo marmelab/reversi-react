@@ -9,6 +9,7 @@ import configureStore from '../../shared/app/store';
 import StyleProvider from '../../shared/utils/StyleProvider';
 import routes from '../../shared/routes';
 import sagaFactory from '../../shared/app/sagas';
+import { getCurrentPlayer } from '../../shared/reversi/game/Game';
 
 const AppMiddleware = (req, res) => {
     const head = Helmet.rewind();
@@ -29,11 +30,16 @@ const AppMiddleware = (req, res) => {
         );
 
         store.runSaga(sagaFactory(config)).done.then(() => {
+
+            const state = store.getState();
+
             return res.render('index', {
                 app: renderToString(rootComponent),
                 css: jss.sheets.toString(),
                 title: head.title.toString(),
-                stateString: JSON.stringify(store.getState()),
+                state,
+                isComputerTurn: state.game && !getCurrentPlayer(state.game).isHuman,
+                gameHash: state.game ? state.game.hash : null,
             });
         });
 

@@ -30,7 +30,7 @@ const styles = {
 
 const getBgColor = cellType => ({ backgroundColor: getColor(cellType) });
 
-const Cell = ({ sheet, cell, onClick, gameHash, isProposal }) => {
+const Cell = ({ sheet, cell, onClick, gameHash, isProposal, isInteractive }) => {
     const onSubmit = (e) => {
         e.preventDefault();
         onClick(cell, gameHash);
@@ -38,8 +38,15 @@ const Cell = ({ sheet, cell, onClick, gameHash, isProposal }) => {
 
     if (isProposal) {
         const apiBaseUrl = config.shared.apiBaseUrl;
+        if (!isInteractive) {
+            return (
+                <div className={sheet.classes.cell} style={getBgColor()}>
+                    <span className={sheet.classes.proposal} style={{ ...getBgColor(cell.type), marginTop: '13px' }} />
+                </div>
+            );
+        }
         return (
-            <form style={{ height: '100%' }} onSubmit={onSubmit} action={`${apiBaseUrl}/games/place/${gameHash}`} method="POST">
+            <form style={{ height: '100%' }} onSubmit={onSubmit} action={`${apiBaseUrl}/games/place/${gameHash}?redirect=1`} method="POST">
                 <input type="hidden" value={cell.x} name="cell[x]" />
                 <input type="hidden" value={cell.y} name="cell[y]" />
                 <input type="hidden" value={cell.type} name="cell[type]" />
@@ -58,6 +65,7 @@ Cell.propTypes = {
     onClick: PropTypes.func,
     gameHash: PropTypes.string,
     isProposal: PropTypes.bool,
+    isInteractive: PropTypes.bool,
 };
 
 export default injectSheet(styles)(Cell);

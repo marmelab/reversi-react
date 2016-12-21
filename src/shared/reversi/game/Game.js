@@ -30,6 +30,10 @@ export function playCellChange(cellChange, game) {
     return newGame;
 }
 
+export function isPvc(game) {
+    return game.players.filter(p => !p.isHuman).length > 0;
+}
+
 export function tryPlayerSwitch(game) {
     const reversePlayer = getReversePlayer(game);
     if (!game.isFinished && !playerCanPlay(reversePlayer, game)) {
