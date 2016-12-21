@@ -1,10 +1,18 @@
 import { fork } from 'redux-saga/effects';
-import { watchRequestGame, watchRequestNewGame, watchPlaceCellChange } from './Game';
+import gameSagaFactory from './Game';
 
-export default function* root() {
-    yield [
-        fork(watchRequestGame),
-        fork(watchRequestNewGame),
-        fork(watchPlaceCellChange),
-    ];
-}
+export default (config) => {
+    const {
+        watchRequestGame,
+        watchRequestNewGame,
+        watchPlaceCellChange,
+    } = gameSagaFactory(config);
+
+    return function* root() {
+        yield [
+            fork(watchRequestGame),
+            fork(watchRequestNewGame),
+            fork(watchPlaceCellChange),
+        ];
+    };
+};

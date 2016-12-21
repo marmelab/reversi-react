@@ -66,7 +66,7 @@ class Game extends Component {
 
 Game.propTypes = {
     sheet: PropTypes.instanceOf(StyleSheet),
-    game: gamePropType.isRequired,
+    game: gamePropType,
     requestGame: PropTypes.func.isRequired,
     placeCellChange: PropTypes.func.isRequired,
 };

@@ -8,7 +8,7 @@ run:
 		./node_modules/.bin/babel-node -- src/server/server.js
 
 build:
-	./node_modules/.bin/webpack -d
+	./node_modules/.bin/webpack -d --display-error-details
 
 watch:
 	./node_modules/.bin/webpack --watch -d

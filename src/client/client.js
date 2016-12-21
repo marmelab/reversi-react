@@ -2,12 +2,13 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Router, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
+import config from 'config';
 import routes from '../shared/routes';
 import configureStore from '../shared/app/store';
-import sagas from '../shared/app/sagas';
+import sagaFactory from '../shared/app/sagas';
 
 const store = configureStore(window.__INITIAL_STATE__);
-store.runSaga(sagas);
+store.runSaga(sagaFactory(config));
 
 const rootElement = document.getElementById('react-root');
 

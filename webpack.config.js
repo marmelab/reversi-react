@@ -1,4 +1,5 @@
 const path = require('path');
+const ConfigPlugin = require('webpack-config-plugin');
 
 const buildFolder = 'build';
 const buildPath = path.resolve(__dirname, `./public/${buildFolder}`);
@@ -19,4 +20,9 @@ module.exports = {
             loader: 'babel',
         }],
     },
+    plugins: [
+        new ConfigPlugin({
+            dir: path.join(__dirname, '/config/'),
+        }),
+    ],
 };
