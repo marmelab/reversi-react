@@ -37,7 +37,11 @@ ApiMiddleware.post('/games/place/:hash', (req, res) => {
     const reqCell = req.body.cell;
     let game = get(req.params.hash);
     let error = '';
-    game = playCellChange(createCell(parseInt(reqCell.x), parseInt(reqCell.y), parseInt(reqCell.type)), game);
+    game = playCellChange(createCell(
+        parseInt(reqCell.x, 10),
+        parseInt(reqCell.y, 10),
+        parseInt(reqCell.type, 10),
+    ), game);
     try {
         game = tryPlayerSwitch(game);
     } catch (e) {
