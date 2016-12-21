@@ -1,26 +1,26 @@
 import React, { PropTypes } from 'react';
 import injectSheet from 'react-jss';
+import config from 'config';
 import { StyleSheet } from 'jss';
 import { getColor } from '../../reversi/cell/Cell';
 import { cellPropType } from '../propTypes';
-import config from 'config';
 
 const styles = {
     cell: {
-        borderRadius: '20px',
+        borderRadius: '100%',
         padding: 0,
         border: 'none',
-        width: '40px',
-        height: '40px',
+        width: '90%',
+        height: '90%',
         display: 'inline-block',
-        lineHeight: '40px',
+        lineHeight: '90%',
         boxShadow: 'inset 0px 0px 5px 0px rgba(0, 0, 0, 0.4)',
     },
     proposal: {
         display: 'inline-block',
-        width: '25px',
-        height: '25px',
-        borderRadius: '13px',
+        width: '60%',
+        height: '60%',
+        borderRadius: '100%',
         verticalAlign: 'middle',
         '&:hover': {
             transform: 'scale(1.1)',
@@ -39,7 +39,7 @@ const Cell = ({ sheet, cell, onClick, gameHash, isProposal }) => {
     if (isProposal) {
         const apiBaseUrl = config.shared.apiBaseUrl;
         return (
-            <form onSubmit={onSubmit} action={`${apiBaseUrl}/games/place/${gameHash}`} method="POST">
+            <form style={{ height: '100%' }} onSubmit={onSubmit} action={`${apiBaseUrl}/games/place/${gameHash}`} method="POST">
                 <input type="hidden" value={cell.x} name="cell[x]" />
                 <input type="hidden" value={cell.y} name="cell[y]" />
                 <input type="hidden" value={cell.type} name="cell[type]" />

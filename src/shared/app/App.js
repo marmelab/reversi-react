@@ -4,7 +4,9 @@ import { StyleSheet } from 'jss';
 
 const styles = {
     container: {
-        backgroundColor: 'green',
+        backgroundColor: '#079153',
+        borderRadius: '3px',
+        padding: '10px',
     },
 };
 
